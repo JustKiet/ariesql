@@ -1,0 +1,667 @@
+{
+  "database_info": {
+    "database": "employees",
+    "schema": "employees",
+    "version": "PostgreSQL 15.16 (Debian 15.16-1.pgdg13+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 14.2.0-19) 14.2.0, 64-bit"
+  },
+  "tables": {
+    "department": {
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "id",
+          "type": "character",
+          "max_length": 4,
+          "nullable": false,
+          "default": null,
+          "position": 1
+        },
+        {
+          "name": "dept_name",
+          "type": "character varying",
+          "max_length": 40,
+          "nullable": false,
+          "default": null,
+          "position": 2
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "idx_16979_primary",
+          "definition": "CREATE UNIQUE INDEX idx_16979_primary ON employees.department USING btree (id)"
+        },
+        {
+          "name": "idx_16979_dept_name",
+          "definition": "CREATE UNIQUE INDEX idx_16979_dept_name ON employees.department USING btree (dept_name)"
+        }
+      ]
+    },
+    "department_employee": {
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "employee_id",
+          "type": "bigint",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 1
+        },
+        {
+          "name": "department_id",
+          "type": "character",
+          "max_length": 4,
+          "nullable": false,
+          "default": null,
+          "position": 2
+        },
+        {
+          "name": "from_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 3
+        },
+        {
+          "name": "to_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 4
+        }
+      ],
+      "primary_keys": [
+        "employee_id",
+        "department_id"
+      ],
+      "indexes": [
+        {
+          "name": "idx_16982_primary",
+          "definition": "CREATE UNIQUE INDEX idx_16982_primary ON employees.department_employee USING btree (employee_id, department_id)"
+        },
+        {
+          "name": "idx_16982_dept_no",
+          "definition": "CREATE INDEX idx_16982_dept_no ON employees.department_employee USING btree (department_id)"
+        }
+      ]
+    },
+    "department_manager": {
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "employee_id",
+          "type": "bigint",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 1
+        },
+        {
+          "name": "department_id",
+          "type": "character",
+          "max_length": 4,
+          "nullable": false,
+          "default": null,
+          "position": 2
+        },
+        {
+          "name": "from_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 3
+        },
+        {
+          "name": "to_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 4
+        }
+      ],
+      "primary_keys": [
+        "employee_id",
+        "department_id"
+      ],
+      "indexes": [
+        {
+          "name": "idx_16985_primary",
+          "definition": "CREATE UNIQUE INDEX idx_16985_primary ON employees.department_manager USING btree (employee_id, department_id)"
+        },
+        {
+          "name": "idx_16985_dept_no",
+          "definition": "CREATE INDEX idx_16985_dept_no ON employees.department_manager USING btree (department_id)"
+        }
+      ]
+    },
+    "employee": {
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "max_length": null,
+          "nullable": false,
+          "default": "nextval('id_employee_seq'::regclass)",
+          "position": 1
+        },
+        {
+          "name": "birth_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 2
+        },
+        {
+          "name": "first_name",
+          "type": "character varying",
+          "max_length": 14,
+          "nullable": false,
+          "default": null,
+          "position": 3
+        },
+        {
+          "name": "last_name",
+          "type": "character varying",
+          "max_length": 16,
+          "nullable": false,
+          "default": null,
+          "position": 4
+        },
+        {
+          "name": "gender",
+          "type": "USER-DEFINED",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 5
+        },
+        {
+          "name": "hire_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 6
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ],
+      "indexes": [
+        {
+          "name": "idx_16988_primary",
+          "definition": "CREATE UNIQUE INDEX idx_16988_primary ON employees.employee USING btree (id)"
+        }
+      ]
+    },
+    "salary": {
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "employee_id",
+          "type": "bigint",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 1
+        },
+        {
+          "name": "amount",
+          "type": "bigint",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 2
+        },
+        {
+          "name": "from_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 3
+        },
+        {
+          "name": "to_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 4
+        }
+      ],
+      "primary_keys": [
+        "employee_id",
+        "from_date"
+      ],
+      "indexes": [
+        {
+          "name": "idx_16991_primary",
+          "definition": "CREATE UNIQUE INDEX idx_16991_primary ON employees.salary USING btree (employee_id, from_date)"
+        }
+      ]
+    },
+    "title": {
+      "type": "BASE TABLE",
+      "columns": [
+        {
+          "name": "employee_id",
+          "type": "bigint",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 1
+        },
+        {
+          "name": "title",
+          "type": "character varying",
+          "max_length": 50,
+          "nullable": false,
+          "default": null,
+          "position": 2
+        },
+        {
+          "name": "from_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": false,
+          "default": null,
+          "position": 3
+        },
+        {
+          "name": "to_date",
+          "type": "date",
+          "max_length": null,
+          "nullable": true,
+          "default": null,
+          "position": 4
+        }
+      ],
+      "primary_keys": [
+        "employee_id",
+        "title",
+        "from_date"
+      ],
+      "indexes": [
+        {
+          "name": "idx_16994_primary",
+          "definition": "CREATE UNIQUE INDEX idx_16994_primary ON employees.title USING btree (employee_id, title, from_date)"
+        }
+      ]
+    }
+  },
+  "relationships": [
+    {
+      "from_table": "department_employee",
+      "from_column": "department_id",
+      "to_table": "department",
+      "to_column": "id",
+      "constraint_name": "dept_emp_ibfk_2"
+    },
+    {
+      "from_table": "department_employee",
+      "from_column": "employee_id",
+      "to_table": "employee",
+      "to_column": "id",
+      "constraint_name": "dept_emp_ibfk_1"
+    },
+    {
+      "from_table": "department_manager",
+      "from_column": "department_id",
+      "to_table": "department",
+      "to_column": "id",
+      "constraint_name": "dept_manager_ibfk_2"
+    },
+    {
+      "from_table": "department_manager",
+      "from_column": "employee_id",
+      "to_table": "employee",
+      "to_column": "id",
+      "constraint_name": "dept_manager_ibfk_1"
+    },
+    {
+      "from_table": "salary",
+      "from_column": "employee_id",
+      "to_table": "employee",
+      "to_column": "id",
+      "constraint_name": "salaries_ibfk_1"
+    },
+    {
+      "from_table": "title",
+      "from_column": "employee_id",
+      "to_table": "employee",
+      "to_column": "id",
+      "constraint_name": "titles_ibfk_1"
+    }
+  ],
+  "column_insights": {
+    "department": {
+      "id": {
+        "data_type": "character",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 9,
+        "cardinality": "unique",
+        "text_stats": {
+          "min_length": 4,
+          "max_length": 4,
+          "avg_length": 4.0
+        }
+      },
+      "dept_name": {
+        "data_type": "character varying",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 9,
+        "cardinality": "unique",
+        "text_stats": {
+          "min_length": 5,
+          "max_length": 18,
+          "avg_length": 11.0
+        }
+      }
+    },
+    "department_employee": {
+      "employee_id": {
+        "data_type": "bigint",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 300024,
+        "cardinality": "high",
+        "numeric_stats": {
+          "has_range": true,
+          "average": 253332.60502468314,
+          "std_dev": 161831.91944549
+        }
+      },
+      "department_id": {
+        "data_type": "character",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 9,
+        "cardinality": "low",
+        "text_stats": {
+          "min_length": 4,
+          "max_length": 4,
+          "avg_length": 4.0
+        }
+      },
+      "from_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      },
+      "to_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      }
+    },
+    "department_manager": {
+      "employee_id": {
+        "data_type": "bigint",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 24,
+        "cardinality": "unique",
+        "numeric_stats": {
+          "has_range": true,
+          "average": 110780.83333333333,
+          "std_dev": 627.958712757086
+        }
+      },
+      "department_id": {
+        "data_type": "character",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 9,
+        "cardinality": "low",
+        "text_stats": {
+          "min_length": 4,
+          "max_length": 4,
+          "avg_length": 4.0
+        }
+      },
+      "from_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      },
+      "to_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      }
+    },
+    "employee": {
+      "id": {
+        "data_type": "bigint",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 300024,
+        "cardinality": "unique",
+        "numeric_stats": {
+          "has_range": true,
+          "average": 253321.76339226196,
+          "std_dev": 161828.23554038
+        }
+      },
+      "birth_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      },
+      "first_name": {
+        "data_type": "character varying",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1275,
+        "cardinality": "low",
+        "text_stats": {
+          "min_length": 3,
+          "max_length": 14,
+          "avg_length": 6.22
+        }
+      },
+      "last_name": {
+        "data_type": "character varying",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 1637,
+        "cardinality": "low",
+        "text_stats": {
+          "min_length": 4,
+          "max_length": 16,
+          "avg_length": 7.15
+        }
+      },
+      "gender": {
+        "data_type": "USER-DEFINED",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 2,
+        "cardinality": "low"
+      },
+      "hire_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      }
+    },
+    "salary": {
+      "employee_id": {
+        "data_type": "bigint",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 300024,
+        "cardinality": "low",
+        "numeric_stats": {
+          "has_range": true,
+          "average": 253057.44317657198,
+          "std_dev": 161844.74133284
+        }
+      },
+      "amount": {
+        "data_type": "bigint",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 85814,
+        "cardinality": "low",
+        "numeric_stats": {
+          "has_range": true,
+          "average": 63810.744836143705,
+          "std_dev": 16904.83125997
+        }
+      },
+      "from_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      },
+      "to_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      }
+    },
+    "title": {
+      "employee_id": {
+        "data_type": "bigint",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 300024,
+        "cardinality": "medium",
+        "numeric_stats": {
+          "has_range": true,
+          "average": 253075.03442978696,
+          "std_dev": 161853.29261331
+        }
+      },
+      "title": {
+        "data_type": "character varying",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "unique_count": 7,
+        "cardinality": "low",
+        "text_stats": {
+          "min_length": 5,
+          "max_length": 18,
+          "avg_length": 10.27
+        }
+      },
+      "from_date": {
+        "data_type": "date",
+        "nullable": false,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      },
+      "to_date": {
+        "data_type": "date",
+        "nullable": true,
+        "null_count": 0,
+        "null_percentage": 0.0,
+        "datetime_stats": {
+          "has_range": true,
+          "range_description": "temporal data present"
+        }
+      }
+    }
+  },
+  "statistics": {
+    "department": {
+      "row_count": 9,
+      "size": "40 kB"
+    },
+    "department_employee": {
+      "row_count": 331603,
+      "size": "29 MB"
+    },
+    "department_manager": {
+      "row_count": 24,
+      "size": "40 kB"
+    },
+    "employee": {
+      "row_count": 300024,
+      "size": "26 MB"
+    },
+    "salary": {
+      "row_count": 2844047,
+      "size": "227 MB"
+    },
+    "title": {
+      "row_count": 443308,
+      "size": "44 MB"
+    }
+  },
+  "metadata": {
+    "fetched_at": "2026-02-20T20:43:02.253212",
+    "privacy_mode": true
+  }
+}

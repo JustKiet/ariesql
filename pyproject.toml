@@ -1,0 +1,26 @@
+[project]
+name = "sql-agent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.129.0",
+    "openai>=2.21.0",
+    "pip>=26.0.1",
+    "psycopg2-binary>=2.9.11",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+    "rapidfuzz>=3.14.3",
+    "spacy>=3.8.11",
+    "sqlacodegen>=3.2.0",
+    "sqlalchemy>=2.0.46",
+    "sqlglot>=28.10.0",
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
