@@ -5,17 +5,29 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "dependency-injector>=4.48.3",
+    "en-core-web-sm",
     "fastapi>=0.129.0",
+    "ipykernel>=7.2.0",
+    "langchain>=1.2.10",
+    "langchain-daytona-data-analysis>=0.1.1",
+    "langchain-openai>=1.1.10",
+    "langchain-redis>=0.2.5",
     "openai>=2.21.0",
+    "openai-guardrails>=0.2.1",
     "pip>=26.0.1",
     "psycopg2-binary>=2.9.11",
     "pydantic>=2.12.5",
+    "pydantic-settings>=2.13.1",
+    "pymssql>=2.3.13",
     "python-dotenv>=1.2.1",
     "rapidfuzz>=3.14.3",
     "spacy>=3.8.11",
     "sqlacodegen>=3.2.0",
     "sqlalchemy>=2.0.46",
     "sqlglot>=28.10.0",
+    "sse-starlette>=3.2.0",
+    "uvicorn>=0.41.0",
 ]
 
 [build-system]
@@ -24,3 +36,11 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.uv.sources]
+en-core-web-sm = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl" }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]

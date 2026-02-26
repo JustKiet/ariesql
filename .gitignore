@@ -214,3 +214,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+media/*
+temp/*
+configs/database_manifest.mssql.json
+configs/database_manifest.postgres.json

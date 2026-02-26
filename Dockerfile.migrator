@@ -1,0 +1,37 @@
+# ============================================================
+# Dockerfile for the PG → MSSQL one-shot migrator
+#
+# Based on the MSSQL image (provides sqlcmd), with
+# postgresql-client added for psql.
+# ============================================================
+FROM mcr.microsoft.com/mssql/server:2022-latest
+
+USER root
+
+# Install PostgreSQL client (for psql / \COPY exports)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gnupg \
+        curl \
+        lsb-release && \
+    echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+        > /etc/apt/sources.list.d/pgdg.list && \
+    curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends postgresql-client-15 && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy the migration script
+COPY scripts/mssql/migrate-pg-to-mssql.sh /migrate.sh
+RUN chmod +x /migrate.sh
+
+# Ensure the shared csv-staging volume mount point is writable
+# by the mssql user (UID 10001 in the MSSQL image).
+RUN mkdir -p /csv-staging && chown 10001:0 /csv-staging
+
+# Run as root so we can write to the shared csv-staging volume
+# regardless of the host volume ownership. This is a one-shot
+# migration container, not a long-running service.
+USER root
+
+ENTRYPOINT ["/bin/bash", "/migrate.sh"]

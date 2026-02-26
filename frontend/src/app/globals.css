@@ -1,0 +1,221 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FAFBFE;
+  --foreground: #2D3142;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+/* ── Custom animations ──────────────────────────────────────────────── */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.35s ease-out both;
+}
+
+/* ── Streaming cursor — blinking caret like ChatGPT ─────────────────── */
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.streaming-cursor::after {
+  content: "▍";
+  display: inline;
+  color: #14B8A6;
+  animation: blink-caret 0.8s step-end infinite;
+  font-weight: 300;
+  margin-left: 1px;
+}
+
+/* ── Scrollbar styling ──────────────────────────────────────────────── */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #D1D5E0 transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #D1D5E0;
+  border-radius: 3px;
+}
+
+/* ── Markdown body styles (for marked HTML output) ──────────────────── */
+.markdown-body {
+  color: #2D3142;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  word-wrap: break-word;
+}
+
+.markdown-body > *:first-child { margin-top: 0; }
+.markdown-body > *:last-child { margin-bottom: 0; }
+
+.markdown-body h1 { font-size: 1.25rem; font-weight: 600; margin: 1.25rem 0 0.75rem; color: #2D3142; }
+.markdown-body h2 { font-size: 1.125rem; font-weight: 600; margin: 1rem 0 0.5rem; color: #2D3142; }
+.markdown-body h3 { font-size: 1rem; font-weight: 600; margin: 1rem 0 0.5rem; color: #2D3142; }
+.markdown-body h4, .markdown-body h5, .markdown-body h6 { font-size: 0.875rem; font-weight: 600; margin: 0.75rem 0 0.5rem; color: #2D3142; }
+
+.markdown-body p { margin-bottom: 0.75rem; }
+.markdown-body p:last-child { margin-bottom: 0; }
+
+.markdown-body strong { color: #2D3142; font-weight: 600; }
+.markdown-body em { font-style: italic; }
+
+.markdown-body a { color: #14B8A6; text-decoration: none; }
+.markdown-body a:hover { text-decoration: underline; }
+
+.markdown-body ul { margin-bottom: 0.75rem; padding-left: 1.5rem; list-style: disc; }
+.markdown-body ol { margin-bottom: 0.75rem; padding-left: 1.5rem; list-style: decimal; }
+.markdown-body li { margin-bottom: 0.25rem; line-height: 1.7; }
+
+.markdown-body blockquote {
+  margin: 0.75rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(20, 184, 166, 0.4);
+  color: #7A7F96;
+  font-style: italic;
+}
+
+.markdown-body hr {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid #E0E3ED;
+}
+
+.markdown-body img {
+  margin: 0.75rem 0;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #E0E3ED;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Inline code */
+.markdown-body code {
+  background: #F0F2F8;
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  color: #D66BA0;
+  font-size: 0.8125rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Code blocks */
+.markdown-body pre {
+  margin: 0.75rem 0;
+  padding: 1rem;
+  background: #F0F2F8;
+  border: 1px solid #E0E3ED;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.markdown-body pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: #2D3142;
+  font-size: inherit;
+}
+
+/* Tables */
+.markdown-body table {
+  width: 100%;
+  margin: 0.75rem 0;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  border: 1px solid #E0E3ED;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+.markdown-body thead { background: #F0F2F8; }
+.markdown-body th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.6875rem;
+  color: #7A7F96;
+  white-space: nowrap;
+  border-bottom: 1px solid #E0E3ED;
+}
+.markdown-body td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(224, 227, 237, 0.6);
+  white-space: nowrap;
+}
+.markdown-body tbody tr:hover { background: #F5F6FA; }
+
+/* ── highlight.js light theme ───────────────────────────────────────── */
+.hljs {
+  background: #F0F2F8 !important;
+  color: #2D3142;
+}
+.hljs-keyword { color: #D66BA0; }
+.hljs-string { color: #5A9E6F; }
+.hljs-number { color: #C9874E; }
+.hljs-comment { color: #9CA3B4; font-style: italic; }
+.hljs-function { color: #5B8BD4; }
+.hljs-title { color: #5B8BD4; }
+.hljs-params { color: #2D3142; }
+.hljs-built_in { color: #C9874E; }
+.hljs-literal { color: #D66BA0; }
+.hljs-type { color: #C9874E; }
+.hljs-attr { color: #5B8BD4; }
+.hljs-selector-class { color: #D66BA0; }
+.hljs-selector-id { color: #D66BA0; }
+.hljs-variable { color: #D66BA0; }
+
+/* ── Code block wrapper (ChatGPT-style) used in SubEventTimeline ──── */
+.code-block-wrapper pre {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.code-block-wrapper pre code {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+

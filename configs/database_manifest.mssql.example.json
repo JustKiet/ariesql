@@ -1,0 +1,87 @@
+{   
+    "database": "mssql",
+    "dialect": "tsql",
+    "connection_params": {
+        "host": "localhost",
+        "port": 1433,
+        "database": "employees",
+        "username": "sa",
+        "password": ""
+    },
+    "default_schema": "employees",
+    "policy": {
+        "employee": {
+            "scope": "user",
+            "user_key": "id",
+            "allowed_columns": [
+                "id",
+                "first_name",
+                "last_name",
+                "birth_date",
+                "gender",
+                "hire_date"
+            ]
+        },
+        "department": {
+            "scope": "global",
+            "allowed_columns": ["id", "dept_name"]
+        },
+        "department_employee": {
+            "scope": "user",
+            "user_key": "employee_id",
+            "allowed_columns": ["department_id", "employee_id", "from_date", "to_date"]
+        }   ,
+        "department_manager": {
+            "scope": "global",
+            "allowed_columns": ["department_id", "employee_id", "from_date", "to_date"]
+        },
+        "title": {
+            "scope": "user",
+            "user_key": "employee_id",
+            "allowed_columns": ["employee_id", "title", "from_date", "to_date"]
+        },
+        "salary": { 
+            "scope": "user",
+            "user_key": "employee_id",
+            "allowed_columns": ["employee_id", "amount", "from_date", "to_date"]
+        }
+    },
+    "blocked_functions": [
+        "xp_cmdshell",
+        "xp_regread",
+        "xp_regwrite",
+        "xp_regdelete",
+        "xp_servicecontrol",
+        "xp_dirtree",
+        "xp_subdirs",
+        "xp_fileexist",
+        "xp_fixeddrives",
+        "xp_loginconfig",
+        "xp_msver",
+        "sp_oacreate",
+        "sp_oamethod",
+        "sp_oadestroy",
+        "sp_oagetproperty",
+        "sp_oasetproperty",
+        "sp_executesql",
+        "sp_prepare",
+        "sp_execute",
+        "sp_send_dbmail",
+        "xp_sendmail",
+        "sp_addlinkedserver",
+        "sp_linkedservers",
+        "openrowset",
+        "opendatasource",
+        "openquery",
+        "sp_add_job",
+        "sp_add_jobstep",
+        "sp_start_job",
+        "sp_delete_job",
+        "sp_configure",
+        "reconfigure",
+        "backup",
+        "restore",
+        "waitfor"
+    ]
+}
+

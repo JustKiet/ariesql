@@ -13,6 +13,68 @@ services:
       - ./data/employees.dump:/docker-entrypoint-initdb.d/employees.dump
       - ./scripts/init-employees.sh:/docker-entrypoint-initdb.d/init-employees.sh
       - ./scripts/set-search-path.sql:/docker-entrypoint-initdb.d/set-search-path.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-employees}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-agent-mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-YourStr0ngP@ssw0rd!}
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssqldata:/var/opt/mssql
+      - csv-staging:/csv-staging
+      - ./scripts/mssql/create-employees-schema.sql:/scripts/create-employees-schema.sql:ro
+      - ./scripts/mssql/init-mssql.sh:/scripts/init-mssql.sh:ro
+    entrypoint: /bin/bash /scripts/init-mssql.sh
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "${MSSQL_SA_PASSWORD:-YourStr0ngP@ssw0rd!}", "-No", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  mssql-migrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrator
+    container_name: sql-agent-mssql-migrator
+    environment:
+      PG_HOST: postgres
+      PG_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-employees}
+      MSSQL_HOST: mssql
+      MSSQL_PORT: "1433"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-YourStr0ngP@ssw0rd!}
+    volumes:
+      - csv-staging:/csv-staging
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mssql:
+        condition: service_healthy
+    restart: "no"
+
+  redis:
+    # Use Redis Stack which bundles RediSearch (required by langchain_redis / redisvl)
+    # This provides the FT.* commands (e.g. FT._LIST) used by the vector store implementation.
+    image: redis/redis-stack:latest
+    container_name: sql-agent-redis
+    ports:
+      - "6379:6379"
+  
 volumes:
   pgdata:
+    driver: local
+  mssqldata:
+    driver: local
+  csv-staging:
     driver: local
