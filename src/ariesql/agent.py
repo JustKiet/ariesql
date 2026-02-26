@@ -1,4 +1,5 @@
 import json
+import traceback
 from typing import Any, cast
 
 from guardrails import GuardrailsAsyncOpenAI, GuardrailTripwireTriggered
@@ -148,6 +149,7 @@ class SQLAgent:
         except GuardrailTripwireTriggered as e:
             raise e
         except Exception as e:
+            logger.error(f"Error invoking agent: {traceback.format_exc()}")
             raise RuntimeError(f"Error invoking agent: {str(e)}")
         finally:
             self.data_analysis_tool.close()

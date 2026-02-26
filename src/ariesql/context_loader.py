@@ -605,8 +605,8 @@ class MSSQLDialect(DatabaseDialect):
             # Null counts (T-SQL: SUM(CASE ...) instead of FILTER)
             cursor.execute(f"""
                 SELECT
-                    SUM(CASE WHEN [{col_name}] IS NULL     THEN 1 ELSE 0 END) AS null_count,
-                    SUM(CASE WHEN [{col_name}] IS NOT NULL THEN 1 ELSE 0 END) AS non_null_count
+                    ISNULL(SUM(CASE WHEN [{col_name}] IS NULL     THEN 1 ELSE 0 END), 0) AS null_count,
+                    ISNULL(SUM(CASE WHEN [{col_name}] IS NOT NULL THEN 1 ELSE 0 END), 0) AS non_null_count
                 FROM {fqn};
             """)
             null_count, non_null_count = cursor.fetchone()

@@ -1,3 +1,4 @@
+import traceback
 import uuid
 from typing import Any, cast
 
@@ -131,6 +132,7 @@ async def chat_stream(request: ChatRequest):
 
         except Exception as e:
             logger.error(f"Error during chat stream: {e}")
+            logger.error(traceback.format_exc())
             yield _serialize_sse(ErrorEvent(thread_id=thread_id, error=str(e)))
 
         # Always close with a done sentinel
