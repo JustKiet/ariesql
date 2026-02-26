@@ -61,3 +61,7 @@ uv run main.py
 ```
 cd frontend && npm run dev
 ```
+
+## Screenshot
+
+<image src="images\example_page.png" alt="ArieSQL Interface" width="100%">
