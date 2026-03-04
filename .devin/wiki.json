@@ -1,0 +1,251 @@
+{
+  "repo_notes": [
+    {
+      "content": ""
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Introduce ArieSQL as a POC SQL agent, explain its core design goals (least privilege, pre-execution validation, secure READ operations), and describe its overall scope and current implementation status",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Application Flow",
+      "purpose": "Detail the 7-step request processing pipeline: AuthZ, Input Validation, Agent Initialization, QueryBank Lookup, SQL Validation and Execution, Result Validation, and Response Generation — including all failure paths and decision gates",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Features and Roadmap",
+      "purpose": "Document what is currently implemented in the POC, what is mocked (AuthZ), and what is planned for future development: WRITE operations via function-calling, post-execution output validation, and fuzzy column value matching",
+      "parent": "Overview",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Architecture",
+      "purpose": "Describe the high-level system architecture: the client, API, agent, tool, configuration, and infrastructure layers, and how they relate to each other at runtime",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Frontend",
+      "purpose": "Describe the frontend component: its role as the user-facing chat interface and sandbox visualization environment, its Node.js dependency setup, and how it communicates with the backend via SSE streaming",
+      "parent": "Architecture",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Core Agent",
+      "purpose": "Overview of the SQL agent subsystem: the SQLAgent class, the Chat API endpoints that expose it, and the configuration and prompt that govern its behavior",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "SQLAgent",
+      "purpose": "Document the SQLAgent class in detail: its constructor dependencies, the invoke and stream async methods, tool integration (execute_query_mssql, DaytonaDataAnalysisTool, upload_file), guardrails integration, masked query handling, and QueryBank interaction",
+      "parent": "Core Agent",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Chat API Endpoints",
+      "purpose": "Document the /chat/stream and /chat FastAPI endpoints: request and response shapes, the SSE event type hierarchy (ContentEvent, ToolCallEvent, ToolResultEvent, MediaEvent, ErrorEvent, DoneEvent), dependency injection pattern, thread_id handling, and the raw event classification pipeline inside event_generator",
+      "parent": "Core Agent",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Agent Configuration and Prompt",
+      "purpose": "Document the Settings Pydantic class, the SQL_AGENT_PROMPT template and its injection points (database_schema, data_scope_summary), the format_data_scope_summary function, and the agent's operational rules: SQL generation constraints, visualization rules, and GLOBAL vs USER-scoped table access rules",
+      "parent": "Core Agent",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Database Layer",
+      "purpose": "Overview of how ArieSQL interacts with databases: schema metadata extraction, query masking for privacy-preserving caching, and the QueryBank lookup mechanism",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Database Context Loader",
+      "purpose": "Document the DatabaseContextLoader class, the DatabaseDialect abstract interface and its PostgresDialect and MSSQLDialect implementations, the data structures (ColumnInfo, TableInfo, Relationship), the fetch_full_context caching mechanism, column_insights privacy-preserving statistics, and the format_for_llm_prompt output",
+      "parent": "Database Layer",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "SQL Query Masking",
+      "purpose": "Document the mask_ner_and_numbers function and resolve_token_type helper: the spaCy NLP pipeline (en_core_web_sm), the nine entity types masked (PERSON, ORG, GPE, LOC, DATE, TIME, MONEY, QUANTITY, PERCENT) plus numeric masking, the duplicate entity guard, and how masked queries feed into QueryBank lookups",
+      "parent": "Database Layer",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "QueryBank (SQL Cache)",
+      "purpose": "Document the RedisSQLBank component: how NER-masked queries are used as cache keys for semantic lookup, the role of the QueryBank in reusing known-good SQL and reducing LLM generation calls, and its Redis Stack (RediSearch) backing store",
+      "parent": "Database Layer",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Security and Validation",
+      "purpose": "Overview of the security model: the principle of least privilege, the Database Manifest as the access control declaration, the SQL pre-execution validation pipeline, input moderation guardrails, and known audit findings",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Database Manifest",
+      "purpose": "Document the DatabaseManifest configuration format: connection_params, default_schema, the policy object (scope types USER and GLOBAL, user_key, allowed_columns per table), and blocked_functions; include the example MSSQL manifest as a reference",
+      "parent": "Security and Validation",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "SQL Query Validator",
+      "purpose": "Document the SQL pre-execution validation pipeline implemented via sqlglot AST manipulation: parse_sql, enforce_read_only, enforce_table_access, enforce_column_access, block_select_star, enforce_safe_functions, inject_user_filters (row-level security), and enforce_limit; cover TABLE_POLICIES and BLOCKED_FUNCTIONS configuration",
+      "parent": "Security and Validation",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Input Guardrails",
+      "purpose": "Document the GuardrailsAsyncOpenAI integration, the omni-moderation-latest moderation model, the guardrails_config.json configuration, GuardrailTripwireTriggered exception handling in invoke and stream, and the moderation categories checked",
+      "parent": "Security and Validation",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Infrastructure and Deployment",
+      "purpose": "Describe the Docker Compose infrastructure, the four services, volume topology, service startup order, and the end-to-end quick start process",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Docker Services",
+      "purpose": "Document each Docker Compose service: postgres (employees DB, port 5432, health check, init scripts), mssql (port 1433, health check, schema scripts), mssql-migrator (one-shot job, depends_on healthy postgres and mssql), and redis (redis-stack with RediSearch, port 6379); cover the three named volumes (pgdata, mssqldata, csv-staging) and their mount points",
+      "parent": "Infrastructure and Deployment",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Database Migration",
+      "purpose": "Document the PG-to-MSSQL one-shot migration container built from Dockerfile.migrator: the base mssql/server image, postgresql-client-15 installation, dos2unix line-ending conversion, the csv-staging shared volume as the inter-service data handoff point, root user rationale, and the migrate.sh entrypoint",
+      "parent": "Infrastructure and Deployment",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Sample Database and Init Scripts",
+      "purpose": "Document the employees sample database: its six tables (employee, department, department_employee, department_manager, salary, title), the employees.dump file, the init-employees.sh pg_restore script, and the set-search-path.sql schema configuration",
+      "parent": "Infrastructure and Deployment",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Configuration Reference",
+      "purpose": "Consolidated reference for all environment variables, their required values, which subsystem each variable configures, and the relationship between the .env file, Settings class, and DatabaseManifest",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Development Setup",
+      "purpose": "Step-by-step guide for setting up a local development environment: installing Python 3.13, using uv to sync dependencies, configuring the .env file, setting up the database manifest, starting Docker services, and running the backend and frontend servers",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Python Dependencies",
+      "purpose": "Document the project's Python dependency stack from pyproject.toml: LangChain and LangGraph for agent orchestration, FastAPI and Uvicorn for the API layer, spaCy for NLP, sqlglot for SQL parsing, psycopg2 and pymssql for database drivers, dependency-injector for DI, and openai-guardrails for moderation; explain the uv lock file and reproducible installs",
+      "parent": "Development Setup",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    },
+    {
+      "title": "Developer Tooling",
+      "purpose": "Document the developer environment conventions: VS Code workspace settings (Ruff as default formatter, formatOnSave, organizeImports and fixAll on save), .gitattributes LF line-ending enforcement for shell scripts, and the .gitignore exclusion patterns",
+      "parent": "Development Setup",
+      "page_notes": [
+        {
+          "content": ""
+        }
+      ]
+    }
+  ]
+}
